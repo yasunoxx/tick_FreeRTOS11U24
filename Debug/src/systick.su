@@ -1,0 +1,5 @@
+../lpc_chip_11uxx_lib/inc/core_cm0.h:567:22:NVIC_SetPriority	24	static
+../lpc_chip_11uxx_lib/inc/core_cm0.h:641:26:SysTick_Config	16	static
+../src/systick.c:65:22:Delay	24	static
+../src/systick.c:73:5:main2	8	static
+../src/systick.c:122:6:BlinkLED1	24	static

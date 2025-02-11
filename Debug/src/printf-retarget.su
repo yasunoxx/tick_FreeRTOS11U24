@@ -1,0 +1,2 @@
+../src/printf-retarget.c:40:6:__putchar	16	static
+C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/arm-none-eabi/include/stdio.h:227:5:puts	16	static

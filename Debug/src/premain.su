@@ -1,0 +1,4 @@
+../lpc_chip_11uxx_lib/inc/core_cm0.h:567:22:NVIC_SetPriority	24	static
+../lpc_chip_11uxx_lib/inc/core_cm0.h:641:26:SysTick_Config	16	static
+../src/premain.c:60:6:Bb_LPC11U24_GPIOInit	8	static
+../src/premain.c:118:6:premain	8	static

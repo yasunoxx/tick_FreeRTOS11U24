@@ -1,0 +1,43 @@
+// reg_ssd1306.h -- Register and Parameter definition for ssd1306
+
+// Registers
+#define SSD1306_SA0 0b00000010
+#define SSD1306_RW  0b00000001
+#define SSD1306_CON 0b10000000
+
+// Commands
+#define SSD1306_CONTRAST    0x81
+#define SSD1306_ENT_DISPON  0x0A4
+#define SSD1306_SET_NORMAL  0x0A6
+#define SSD1306_DISPOFF     0x0AE
+#define SSD1306_DISPON      0x0AF
+#define SSD1306_SCROLL_H_R  0x26
+#define SSD1306_SCROLL_H_L  0x27
+#define SSD1306_SCROLL_V_R  0x29
+#define SSD1306_SCROLL_V_L  0x2A
+#define SSD1306_DEAC_SCROLL 0x2E
+#define SSD1306_ACT_SCROLL  0x2F
+#define SSD1306_V_SCR_AREA  0x0A3
+
+#define SSD1306_SADDR_L     0x00
+#define SSD1306_SADDR_H     0x10
+#define SSD1306_MMODE       0x20
+#define SSD1306_CADDR       0x21
+#define SSD1306_PADDR       0x22
+#define SSD1306_PADDR_PAM   0x0B0
+
+#define SSD1306_DISP_LREG   0x40
+#define SSD1306_SEG_REMAP   0x0A0
+#define SSD1306_MUX_RATIO   0x0A8
+#define SSD1306_COMOUT_DIR  0x0C0
+#define SSD1306_DISP_OFFSET 0x0D3
+#define SSD1306_COMPIN_CONF 0x0DA
+
+#define SSD1306_DIV_RATIO   0x0D5
+#define SSD1306_PRECGARGE   0x0D9
+#define SSD1306_VCOMH       0x0DB
+#define SSD1306_NOP         0x0E3
+
+#define SSD1306_EN_CPUMP    0x08D
+
+#define SSD1306_STAT_DOFF   0b01000000

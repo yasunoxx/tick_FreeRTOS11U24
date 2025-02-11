@@ -1,0 +1,7 @@
+../src/freertos/src/croutine.c:146:22:xCoRoutineCreate	32	static
+../src/freertos/src/croutine.c:203:6:vCoRoutineAddToDelayedList	24	static
+../src/freertos/src/croutine.c:241:13:prvCheckPendingReadyList	16	static
+../src/freertos/src/croutine.c:264:13:prvCheckDelayedList	16	static
+../src/freertos/src/croutine.c:322:6:vCoRoutineSchedule	16	static
+../src/freertos/src/croutine.c:352:13:prvInitialiseCoRoutineLists	16	static
+../src/freertos/src/croutine.c:372:22:xCoRoutineRemoveFromEventList	24	static
