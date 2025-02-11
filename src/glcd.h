@@ -21,6 +21,7 @@
 #define LCD_DB_PORT 1	// LCD Data bus
 //               |       |       |       |       |
 #define	LCD_DB	0b10011100011110000000000000000000
+#define	LCD_DB4	0b10011100000000000000000000000000
 #define	LCD_D7	31
 #define	D7_BIT	0b10000000000000000000000000000000
 #define	LCD_D6	28
@@ -40,7 +41,7 @@
 //               |       |       |       |       |
 #define	LCD_DRS	25
 #define	DRS_BIT 0b00000010000000000000000000000000
-#define	LCD_DRW	24		// R/W
+#define	LCD_DRW	24
 #define	DRW_BIT	0b00000001000000000000000000000000
 #define	LCD_DEN	23
 #define	DEN_BIT	0b00000000100000000000000000000000
@@ -51,27 +52,30 @@
 
 #define LCD_CB_PORT 0		// LCD Control line
 #define	LCD_CB	0b00000000110000100000000000000000
-#define	LCD_EX_A0	LCD_DRS	// Ext. A0
 #define	LCD_EX_EN1	22		// Ext. E sig.
 #define	LCD_EX_EN0	23		// Ext. E sig.
 #define LCD_CCS     17      // BUZZER
 
+#define	LCD_EX_A0	LCD_DRS	// Ext. A0
 #define	CMD_GLCD	1
 #define	CMD_EX0		2
 #define	CMD_EX1		3
 #define	LCD_BL	LCD_DBL
 #define LCD_RW  LCD_DRW
-#define LCD_RS  LCD_DRS
-#define LCD_E   LCD_DEN
+//#define LCD_RS  LCD_DRS
+//#define LCD_E   LCD_DEN
+#define LCD_RS  LCD_D0
+#define LCD_E   LCD_D1
 #define LCD_CS1 LCD_DCS
 #define LCD_CS2 LCD_CCS
 
-extern uint8_t InitGLCD( void );
+extern void InitGLCD( void );
+extern void InitGLCD2( void );
 extern void OutputData( uint8_t target, uint8_t data );
 extern uint8_t InputData( uint8_t target );
-#define	DispLowLCD		privGPIOSetBitValue( LCD_DB_PORT, LCD_DCS, LOW );
-#define	DispHighLCD		privGPIOSetBitValue( LCD_DB_PORT, LCD_DCS, HIGH );
-#define	Addr0LowLCD		privGPIOSetBitValue( LCD_DB_PORT, LCD_DRS, LOW )
-#define	Addr0HighLCD	privGPIOSetBitValue( LCD_DB_PORT, LCD_DRS, HIGH )
-#define	ActCmdLCD		privGPIOSetBitValue( LCD_DB_PORT, LCD_DRS, LOW )
-#define	ActDataLCD		privGPIOSetBitValue( LCD_DB_PORT, LCD_DRS, HIGH )
+#define	DispLowLCD		privGPIOSetBitValue( LCD_DB_PORT, LCD_CS1, LOW );
+#define	DispHighLCD		privGPIOSetBitValue( LCD_DB_PORT, LCD_CS1, HIGH );
+#define	Addr0LowLCD		privGPIOSetBitValue( LCD_DB_PORT, LCD_RS, LOW )
+#define	Addr0HighLCD	privGPIOSetBitValue( LCD_DB_PORT, LCD_RS, HIGH )
+#define	ActCmdLCD		privGPIOSetBitValue( LCD_DB_PORT, LCD_RS, LOW )
+#define	ActDataLCD		privGPIOSetBitValue( LCD_DB_PORT, LCD_RS, HIGH )

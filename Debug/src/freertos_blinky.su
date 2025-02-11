@@ -1,5 +1,0 @@
-../src/freertos_blinky.c:51:13:prvSetupHardware	8	static
-../src/freertos_blinky.c:66:13:vTask0	24	static
-../src/freertos_blinky.c:78:13:vLEDTask1	24	static
-../src/freertos_blinky.c:98:13:vLEDTask2	24	static
-../src/freertos_blinky.c:127:5:main	24	static

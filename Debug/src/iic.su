@@ -1,2 +1,0 @@
-../src/iic.c:27:6:InitIIC	8	static
-../src/iic.c:35:6:InitSSD1306	16	static

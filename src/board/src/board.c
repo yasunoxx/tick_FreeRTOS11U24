@@ -37,20 +37,6 @@
  * Private types/enumerations/variables
  ****************************************************************************/
 
-#define BUTTONS_BUTTON1_GPIO_PORT_NUM			0
-#define BUTTONS_BUTTON1_GPIO_BIT_NUM			16
-
-#define JOYSTICK_UP_GPIO_PORT_NUM				1
-#define JOYSTICK_UP_GPIO_BIT_NUM				22
-#define JOYSTICK_DOWN_GPIO_PORT_NUM				1
-#define JOYSTICK_DOWN_GPIO_BIT_NUM				20
-#define JOYSTICK_LEFT_GPIO_PORT_NUM				1
-#define JOYSTICK_LEFT_GPIO_BIT_NUM				23
-#define JOYSTICK_RIGHT_GPIO_PORT_NUM			1
-#define JOYSTICK_RIGHT_GPIO_BIT_NUM				21
-#define JOYSTICK_PRESS_GPIO_PORT_NUM			1
-#define JOYSTICK_PRESS_GPIO_BIT_NUM				19
-
 /*****************************************************************************
  * Public types/enumerations/variables
  ****************************************************************************/
@@ -122,5 +108,5 @@ void Board_Init(void)
 	DEBUGINIT();
 
 	/* Initialize GPIO */
-	Chip_GPIO_Init(LPC_GPIO);
+//	Chip_GPIO_Init(LPC_GPIO);
 }

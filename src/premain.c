@@ -111,20 +111,20 @@ void Bb_LPC11U24_GPIOInit( void )
   LPC_IOCON->PIO1_15 = PINMODE_SCK1  | PINMODE_OPENDRAIN;
   // WAKEUP -> SSi1 CS
   LPC_IOCON->PIO0_16 = PINMODE_DIGITAL;
-
-  return;
 }
 
 void premain( void )
 {
+	uint16_t loop;
+
 	  /* Initialize GPIO (sets up clock) */
 	  Bb_LPC11U24_GPIOInit();
 
-	  SystemCoreClockUpdate();
-	  if( SysTick_Config( SystemCoreClock / 1000 ) )	/* Setup SysTick Timer for 1 msec interrupts  */
-	  {
-	    while( 1 );                                  	/* Capture error */
-	  }
+//	  SystemCoreClockUpdate();
+//	  if( SysTick_Config( SystemCoreClock / 1000 ) )	/* Setup SysTick Timer for 1 msec interrupts  */
+//	  {
+//	    while( 1 );                                  	/* Capture error */
+//	  }
 
 	  /* Make sure pins are in a relevant state */
 	  GPIOSetDir( LED_PORT, LED1_BIT, 1 );
@@ -132,7 +132,8 @@ void premain( void )
 	  GPIOSetDir( LED_PORT, LED2_BIT, 1 );
 	  privGPIOSetBitValue( LED_PORT, LED2_BIT, LED_OFF );
 
-//	  InitGLCD();	// configure NGX Bb-LPC11U24 LCD
+	  InitGLCD();	// configure NGX Bb-LPC11U24 LCD
+	  for( loop = 0; loop < 10000; loop++ );
 //	  Delay( 20 );
 //	  InitIIC();
 //	  InitSSD1306()
@@ -140,7 +141,7 @@ void premain( void )
 	  // Turn LED on, then wait
 //	  privGPIOSetBitValue( LED_PORT, LED1_BIT, LED_ON );
 
-	  return;	// here we go to FreeRTOS world.
+	  return;	// back to FreeRTOS world.
 
 	  while( 1 )                                			/* Loop forever */
 	  {

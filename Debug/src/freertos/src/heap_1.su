@@ -1,4 +1,0 @@
-../src/freertos/src/heap_1.c:104:7:pvPortMalloc	24	static
-../src/freertos/src/heap_1.c:152:6:vPortFree	16	static
-../src/freertos/src/heap_1.c:164:6:vPortInitialiseBlocks	8	static
-../src/freertos/src/heap_1.c:171:8:xPortGetFreeHeapSize	8	static

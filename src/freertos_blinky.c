@@ -50,8 +50,8 @@
 /* Sets up system hardware */
 static void prvSetupHardware(void)
 {
-	SystemCoreClockUpdate();
-	Board_Init();
+	SystemCoreClockUpdate();	// chip_11xx.c
+	Board_Init();				// board/board.c
 }
 
 // NGX Blueboard-LPC11U24 LED
@@ -61,6 +61,8 @@ static void prvSetupHardware(void)
 #define LED_ON 0		// set port to turn on led
 #define LED_OFF 1		// set port to turn off led
 extern void privGPIOSetBitValue( uint32_t, uint32_t, uint32_t );	// privgpio.c
+extern void premain( void ); //premain.c
+
 
 /* empty thread */
 static void vTask0( void *pvParameters )
@@ -75,7 +77,7 @@ static void vTask0( void *pvParameters )
 }
 
 /* LED1 toggle thread */
-static void vLEDTask1( void *pvParameters )
+static void vLEDTask( void *pvParameters )
 {
 	bool LedState = false;
 	while( 1 )
@@ -94,27 +96,24 @@ static void vLEDTask1( void *pvParameters )
 	}
 }
 
-/* LED2 toggle thread */
-static void vLEDTask2( void *pvParameters )
+/* LCD thread */
+static void vLCDTask( void *pvParameters )
 {
-	bool LedState = false;
+	bool State = false;
 	while( 1 )
 	{
-		if( LedState )
+		if( State == false )
 		{
+			FreeRTOSDelay( 50 );
 			privGPIOSetBitValue( LED_PORT, LED2_BIT, LED_ON );
-		}
-		else
-		{
+			InitGLCD2();
 			privGPIOSetBitValue( LED_PORT, LED2_BIT, LED_OFF );
+			State = ( bool )!State;
 		}
-		LedState = ( bool )!LedState;
 
 		vTaskDelay( configTICK_RATE_HZ );
 	}
 }
-
-extern void premain( void ); //premain.c
 
 /*****************************************************************************
  * Public functions
@@ -130,16 +129,16 @@ int main( void )
 	premain();	// previous main()
 
 	/* LED1 toggle thread */
-	xTaskCreate( vLEDTask1, ( signed char * )"vTaskLed1",
+	xTaskCreate( vLEDTask, ( signed char * )"vTaskLED1",
 				 configMINIMAL_STACK_SIZE, NULL, ( tskIDLE_PRIORITY + 1UL ),
 				 ( xTaskHandle * )NULL );
 
-	/* LED2 toggle thread */
-	xTaskCreate( vLEDTask2, ( signed char * )"vTaskLed2",
+	/* LCD thread */
+	xTaskCreate( vLCDTask, ( signed char * )"vTaskLCD",
 				 configMINIMAL_STACK_SIZE, NULL, ( tskIDLE_PRIORITY + 1UL ),
 				 ( xTaskHandle * )NULL );
 
-	/* LED0 toggle thread */
+	/* Null thread */
 	xTaskCreate( vTask0, ( signed char * )"vTask0",
 				 configMINIMAL_STACK_SIZE, NULL, ( tskIDLE_PRIORITY + 1UL ),
 				 ( xTaskHandle * )NULL );

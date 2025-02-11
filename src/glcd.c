@@ -11,10 +11,6 @@
 #include "chip.h"
 #endif
 
-//#include <stddef.h>
-//#include "FreeRTOS.h"
-//#include "task.h"
-
 #include "gpio.h"
 #define	IN	0
 #define	OUT	1
@@ -27,12 +23,13 @@
 
 
 // Low level I/O
-uint8_t InitGLCD( void );
 void OutputData( uint8_t target, uint8_t data );
+void OutputData4( uint8_t target, uint8_t data );
+void OutputData4sub( uint8_t data );
 uint8_t InputData( uint8_t target );
 
 extern void privGPIOSetBitValue( uint32_t, uint32_t, uint32_t ); // privgpio.c
-
+extern void FreeRTOSDelay( uint32_t ms ); // FreeRTOSCommonHooks.c
 
 const uint32_t bitlines[ 32 ] = {
 		0x1       , 0x2       , 0x4       , 0x8       ,
@@ -53,18 +50,13 @@ const uint8_t bitpos[ 8 ] = {
 void setDatabusDirection( uint8_t direction );
 void setControlLineDirection( void );
 
-void DelayGLCD( uint8_t cycle )
+void DelayGLCD( uint32_t cycle )
 {
-//	const portTickType xDelay = cycle / portTICK_RATE_MS;
-
-//	vTaskDelay( xDelay );
-	return;
+	FreeRTOSDelay( cycle );
 }
 
-uint8_t InitGLCD( void )
+void InitGLCD( void )
 {
-//	uint8_t	statbuf = 0;
-
 	// Databus and LCD_DBL, LCD_DCS
 	setDatabusDirection( IN );
 	LPC_GPIO->DIR[ LCD_DB_PORT ] |= ( DBL_BIT | DCS_BIT );
@@ -82,38 +74,38 @@ uint8_t InitGLCD( void )
 	privGPIOSetBitValue( LCD_DB_PORT, LCD_RS, LOW );
 	privGPIOSetBitValue( LCD_CB_PORT, LCD_EX_EN0, LOW );
 	privGPIOSetBitValue( LCD_CB_PORT, LCD_EX_EN1, HIGH );
+}
 
-	// Graphic LCD Initial Sequence
+void InitGLCD2( void )
+{
+	// LCD Initial Sequence
 	{
-		DispHighLCD;
 		ActCmdLCD;
-			DelayGLCD( 100 );
-//			while( 1 )
-//			{
-//				statbuf = InputData( CMD_GLCD );
-//				if( ( statbuf & ( LCD_STAT_BUSY | LCD_STAT_RESET ) ) == 0 )
-//					break;
-//				DelayGLCD( 10 );
-//			}
-			OutputData( CMD_GLCD, LCD_CMD_DISPON );
-			DelayGLCD( 10 );
-			OutputData( CMD_GLCD, LCD_CMD_DISPON );
-			DelayGLCD( 10 );
-			OutputData( CMD_GLCD, LCD_CMD_DISPON );
-			DelayGLCD( 10 );
-			OutputData( CMD_GLCD, LCD_CMD_SLINE );	// Set start line 0
-			OutputData( CMD_GLCD, LCD_CMD_PADDR );	// Set page 0
-			OutputData( CMD_GLCD, LCD_CMD_SADDR );	// Set column counter 0
+			OutputData4sub( 0x00 );
+			DelayGLCD( 600UL );
+			OutputData4sub( 0x03 );
+			DelayGLCD( 120UL );
+			OutputData4sub( 0x03 );
+			DelayGLCD( 2UL );
+			OutputData4sub( 0x03 );
+			DelayGLCD( 2UL );
+			OutputData4sub( 0x02 );
+
+			OutputData4( CMD_GLCD, 0x28 );
+			OutputData4( CMD_GLCD, 0x08 );
+
+			OutputData4( CMD_GLCD, 0x01 );
+
+			DelayGLCD( 6UL );
+			OutputData4( CMD_GLCD, 0x06 );
 
 		ActDataLCD;
-			OutputData( CMD_GLCD, 0x0AA );
-			OutputData( CMD_GLCD, 0x055 );
+			OutputData4( CMD_GLCD, 0x0AA );
+			OutputData4( CMD_GLCD, 0x55 );
 	}
 
 	// Exit: Initalize Complete
 //	privGPIOSetBitValue( LCD_DB_PORT, LCD_DBL, LOW );	//	Backlight Off
-
-	return 0;
 }
 
 void OutputData( uint8_t target, uint8_t data )
@@ -142,9 +134,13 @@ void OutputData( uint8_t target, uint8_t data )
 	switch( target )
 	{
 		case CMD_GLCD:
+			for( loop = 0; loop < 10; loop++ );
 			privGPIOSetBitValue( LCD_DB_PORT, LCD_E, HIGH );
+			for( loop = 0; loop < 120; loop++ );
 			privGPIOSetBitValue( LCD_DB_PORT, LCD_E, LOW );
+			for( loop = 0; loop < 10; loop++ );
 			privGPIOSetBitValue( LCD_DB_PORT, LCD_RW, HIGH );
+			for( loop = 0; loop < 20; loop++ );
 			break;
 		case CMD_EX1:
 			privGPIOSetBitValue( LCD_CB_PORT, LCD_EX_EN1, HIGH );
@@ -158,7 +154,51 @@ void OutputData( uint8_t target, uint8_t data )
 			break;
 	}
 	// set input direection for safety
-	setDatabusDirection( IN );
+//	setDatabusDirection( IN );
+}
+
+void OutputData4( uint8_t target, uint8_t data )
+{
+	uint8_t tmp;
+
+	tmp = data >> 4;
+	OutputData4sub( tmp );
+	tmp = data & 0x0F;
+	OutputData4sub( tmp );
+}
+
+void OutputData4sub( uint8_t data )
+{
+	uint32_t databuf = 0;
+	uint8_t	loop, datatmp;
+
+	datatmp = data;
+	// generate output data
+	for( loop = 0; loop < 8; loop++ )
+	{
+		if( ( datatmp & 0x01 ) )
+		{
+			databuf |= bitlines[ bitpos[ loop ] ];
+		}
+		datatmp >>= 1;
+	}
+
+	// data output
+	privGPIOSetBitValue( LCD_DB_PORT, LCD_RW, LOW );
+	setDatabusDirection( OUT );
+	LPC_GPIO->CLR[ LCD_DB_PORT ] = LCD_DB4;
+	LPC_GPIO->SET[ LCD_DB_PORT ] = ( databuf & LCD_DB4 );
+
+	// enable target(LCD ONLY)
+	for( loop = 0; loop < 10; loop++ );
+	privGPIOSetBitValue( LCD_DB_PORT, LCD_E, HIGH );
+	for( loop = 0; loop < 120; loop++ );
+	privGPIOSetBitValue( LCD_DB_PORT, LCD_E, LOW );
+	for( loop = 0; loop < 120; loop++ );
+	privGPIOSetBitValue( LCD_DB_PORT, LCD_RW, HIGH );
+	for( loop = 0; loop < 20; loop++ );
+	// set input direection for safety
+//	setDatabusDirection( IN );
 }
 
 uint8_t InputData( uint8_t target )

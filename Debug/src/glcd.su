@@ -1,6 +1,0 @@
-../src/glcd.c:56:6:DelayGLCD	16	static
-../src/glcd.c:64:9:InitGLCD	8	static
-../src/glcd.c:119:6:OutputData	24	static
-../src/glcd.c:164:9:InputData	24	static
-../src/glcd.c:222:6:setDatabusDirection	16	static
-../src/glcd.c:237:6:setControlLineDirection	8	static
