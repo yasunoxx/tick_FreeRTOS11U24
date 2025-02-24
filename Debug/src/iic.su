@@ -1,0 +1,4 @@
+../lpc_chip_11uxx_lib/inc/core_cm0.h:512:22:NVIC_DisableIRQ	16	static
+../src/iic.c:39:6:Check_BlinkLED1	24	static
+../src/iic.c:56:6:InitIIC	8	static
+../src/iic.c:64:6:InitSSD1306	16	static

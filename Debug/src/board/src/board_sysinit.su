@@ -1,0 +1,10 @@
+../lpc_chip_11uxx_lib/inc/fmc_11xx.h:85:20:Chip_FMC_SetFLASHAccess	24	static
+../lpc_chip_11uxx_lib/inc/clock_11xx.h:54:20:Chip_Clock_SetupSystemPLL	16	static
+../lpc_chip_11uxx_lib/inc/clock_11xx.h:63:20:Chip_Clock_IsSystemPLLLocked	8	static
+../lpc_chip_11uxx_lib/inc/clock_11xx.h:99:20:Chip_Clock_SetupUSBPLL	16	static
+../lpc_chip_11uxx_lib/inc/clock_11xx.h:108:20:Chip_Clock_IsUSBPLLLocked	8	static
+../lpc_chip_11uxx_lib/inc/clock_11xx.h:220:20:Chip_Clock_SetSysClockDiv	16	static
+../lpc_chip_11uxx_lib/inc/clock_11xx.h:295:20:Chip_Clock_EnablePeriphClock	16	static
+../src/board/src/board_sysinit.c:87:13:SystemSetupClocking	16	static
+../src/board/src/board_sysinit.c:142:13:SystemSetupMuxing	24	static
+../src/board/src/board_sysinit.c:160:6:Board_SystemInit	8	static

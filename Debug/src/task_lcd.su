@@ -1,0 +1,2 @@
+../src/task_lcd.c:36:6:Init_vLCDTask	24	static
+../src/task_lcd.c:49:13:vLCDTask	64	static

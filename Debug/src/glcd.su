@@ -1,0 +1,12 @@
+../src/glcd.c:64:6:SetToBufLCD	16	static
+../src/glcd.c:87:6:DelayGLCD	16	static
+../src/glcd.c:94:6:InitGLCD	8	static
+../src/glcd.c:126:6:InitGLCD2	8	static
+../src/glcd.c:183:6:OutputData	32	static
+../src/glcd.c:232:6:OutputData4	32	static
+../src/glcd.c:242:6:OutputData4sub	32	static
+../src/glcd.c:277:9:InputData	24	static
+../src/glcd.c:335:6:setDatabusDirection	16	static
+../src/glcd.c:350:6:setControlLineDirection	8	static
+../src/glcd.c:357:6:putBufToLCD	16	static
+../src/glcd.c:412:9:putCharToLCD	16	static

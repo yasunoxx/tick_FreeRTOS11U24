@@ -1,21 +1,40 @@
 /*
- ** glcd.h -- 128x64 dots LCD(SG12864) routines, for LPC11xx/mcuXpresso
+ ** glcd.h -- 128x64 dots LCD(SG12864) & Character LCD(HD44780) routines,
+ **           for LPC11xx/mcuXpresso
  ** (C)2025 yasunoxx▼Julia <yasunoxx gmail>
  */
 
-// SG12864A Graph. LCD
-// Commands
-#define	LCD_CMD_DISPON	0x03F
-#define	LCD_CMD_DISPOFF	0x03E
-#define	LCD_CMD_SLINE	0b11000000
-#define	LCD_CMD_PADDR	0b10111000
-#define	LCD_CMD_SADDR	0b01000000
+#define CLCD
+#ifdef CLCD
+  // HD44780 Character LCD
+  // Commands
+  #define	LCD_CMD_CLEAR	0b00000001
+  #define	LCD_CMD_RETURN	0b00000010
+  #define	LCD_CMD_ENTMODE	0b00000100
+  #define	LCD_CMD_DISPOFF	0b00001000
+  #define	LCD_CMD_DISPON	0b00001100
+  #define	LCD_CMD_CURSOR	0b00010000
+  #define	LCD_CMD_FUNC	0b00100000
+  #define	LCD_CMD_CGADDR	0b01000000
+  #define	LCD_CMD_DDADDR	0b10000000
 
-// Status
-#define	LCD_STAT_BUSY		0b10000000
-#define	LCD_STAT_DISPOFF	0b00100000
-#define	LCD_STAT_RESET		0b00010000
+  // Status
+  #define	LCD_STAT_BUSY		0b10000000
+#endif
+#ifdef GLCD
+  // SG12864A Graph. LCD
+  // Commands
+  #define	LCD_CMD_DISPON	0x03F
+  #define	LCD_CMD_DISPOFF	0x03E
+  #define	LCD_CMD_SLINE	0b11000000
+  #define	LCD_CMD_PADDR	0b10111000
+  #define	LCD_CMD_SADDR	0b01000000
 
+  //  Status
+  #define	LCD_STAT_BUSY		0b10000000
+  #define	LCD_STAT_DISPOFF	0b00100000
+  #define	LCD_STAT_RESET		0b00010000
+#endif
 
 // LCD bus definition: Bb-LPC11U24
 #define LCD_DB_PORT 1	// LCD Data bus
@@ -62,13 +81,16 @@
 #define	CMD_EX1		3
 #define	LCD_BL	LCD_DBL
 #define LCD_RW  LCD_DRW
-//#define LCD_RS  LCD_DRS
-//#define LCD_E   LCD_DEN
-#define LCD_RS  LCD_D0
-#define LCD_E   LCD_D1
 #define LCD_CS1 LCD_DCS
 #define LCD_CS2 LCD_CCS
 
+#define LCD_RS  LCD_DRS
+#define LCD_E   LCD_DEN
+//#define LCD_RS  LCD_D0
+//#define LCD_E   LCD_D1
+
+//
+//
 extern void InitGLCD( void );
 extern void InitGLCD2( void );
 extern void OutputData( uint8_t target, uint8_t data );

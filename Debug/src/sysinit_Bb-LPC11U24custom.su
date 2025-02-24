@@ -1,0 +1,5 @@
+../src/sysinit_Bb-LPC11U24custom.c:69:6:SYSCON_AssertPeriphReset	16	static
+../src/sysinit_Bb-LPC11U24custom.c:74:6:SYSCON_DeassertPeriphReset	16	static
+../src/sysinit_Bb-LPC11U24custom.c:79:6:SYSCON_PeriphReset	16	static
+../src/sysinit_Bb-LPC11U24custom.c:90:6:SystemSetupMuxing	8	static
+../src/sysinit_Bb-LPC11U24custom.c:110:6:Bb_LPC11U24_SYSCONInit	8	static

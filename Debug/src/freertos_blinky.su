@@ -1,0 +1,3 @@
+../src/freertos_blinky.c:31:13:prvSetupHardware	8	static
+../src/freertos_blinky.c:39:13:vTask0	24	static
+../src/freertos_blinky.c:50:5:main	24	static

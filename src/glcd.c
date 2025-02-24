@@ -1,34 +1,46 @@
 /*
- ** glcd.c -- 128x64 dots LCD(SG12864) routines, for LPC11xx/mcuXpresso
+ ** glcd.c -- 128x64 dots LCD(SG12864) & Character LCD(HD44780) routines,
+ **           for LPC11xx/mcuXpresso
  ** (C)2025 yasunoxx▼Julia <yasunoxx gmail>
  */
 
 #include <stdint.h>
+#include <string.h>
+#include <stdlib.h>
 #include <cr_section_macros.h>
-#ifdef __USE_CMSIS
-#include "LPC11Uxx.h"
+
+#define WITH_FREERTOS
+#ifndef WITH_FREERTOS
+ #ifdef __USE_CMSIS
+ #include "LPC11Uxx.h"
+ #else
+ #include "chip.h"
+ #endif
 #else
-#include "chip.h"
+ #include "FreeRTOS.h"
+ #include "task.h"
+ #include "FreeRTOSCommonHooks.h"
 #endif
 
+#include "iodefs_Bb-LPC11U24custom.h"
 #include "gpio.h"
-#define	IN	0
-#define	OUT	1
-#define LOW	0
-#define HIGH 1
-
 #include "glcd.h"
 
 // High level I/O
-
-
-// Low level I/O
 void OutputData( uint8_t target, uint8_t data );
 void OutputData4( uint8_t target, uint8_t data );
-void OutputData4sub( uint8_t data );
 uint8_t InputData( uint8_t target );
 
-extern void privGPIOSetBitValue( uint32_t, uint32_t, uint32_t ); // privgpio.c
+// Low level I/O
+void OutputData4sub( uint8_t data );
+void setDatabusDirection( uint8_t );
+void setControlLineDirection( void );
+void putBufToLCD();
+uint8_t *buf0, *buf1;
+uint8_t *tempbuf;
+uint8_t putCharToLCD( uint8_t );
+
+// External functions
 extern void FreeRTOSDelay( uint32_t ms ); // FreeRTOSCommonHooks.c
 
 const uint32_t bitlines[ 32 ] = {
@@ -47,15 +59,39 @@ const uint8_t bitpos[ 8 ] = {
 		LCD_D4, LCD_D5, LCD_D6, LCD_D7
 };
 
-void setDatabusDirection( uint8_t direction );
-void setControlLineDirection( void );
+//
+//
+void SetToBufLCD( uint8_t linenum, const char *pbuf )
+{
+	if( linenum == LF )
+	{
+		// shift old line to history buffer
+		strcpy( ( char * )tempbuf, ( const char * )buf0 );
+		strcpy( ( char * )buf0, ( const char * )buf1 );
+		// clear new line
+		strcpy( ( char * )buf1, pbuf );
+	}
+	else if( linenum == 0 )
+	{
+		strcpy( ( char * )buf0, pbuf );
+	}
+	else if( linenum == 1 )
+	{
+		strcpy( ( char * )buf1, pbuf );
+	}
 
+	putBufToLCD();
+}
+//
+//
 void DelayGLCD( uint32_t cycle )
 {
 	FreeRTOSDelay( cycle );
 }
 
-void InitGLCD( void )
+//
+//
+void InitGLCD()
 {
 	// Databus and LCD_DBL, LCD_DCS
 	setDatabusDirection( IN );
@@ -74,40 +110,76 @@ void InitGLCD( void )
 	privGPIOSetBitValue( LCD_DB_PORT, LCD_RS, LOW );
 	privGPIOSetBitValue( LCD_CB_PORT, LCD_EX_EN0, LOW );
 	privGPIOSetBitValue( LCD_CB_PORT, LCD_EX_EN1, HIGH );
+
+#ifdef CLCD
+	buf0 = ( uint8_t * )malloc( 64 );
+	buf1 = ( uint8_t * )malloc( 64 );
+	tempbuf = ( uint8_t * )malloc( 128 );
+#endif
+#ifdef GLCD
+	buf0 = ( uint8_t * )malloc( 512 );
+	buf1 = ( uint8_t * )malloc( 512 );
+	tempbuf = ( uint8_t * )malloc( 1024 );
+#endif
 }
 
 void InitGLCD2( void )
 {
 	// LCD Initial Sequence
+#ifdef CLCD
 	{
 		ActCmdLCD;
-			OutputData4sub( 0x00 );
-			DelayGLCD( 600UL );
-			OutputData4sub( 0x03 );
+			OutputData4sub( 0x0 );
+			DelayGLCD( 1200UL );
+			OutputData4sub( 0x3 );
 			DelayGLCD( 120UL );
-			OutputData4sub( 0x03 );
+			OutputData4sub( 0x3 );
 			DelayGLCD( 2UL );
-			OutputData4sub( 0x03 );
+			OutputData4sub( 0x3 );
 			DelayGLCD( 2UL );
-			OutputData4sub( 0x02 );
+			OutputData4sub( 0x2 );
 
-			OutputData4( CMD_GLCD, 0x28 );
-			OutputData4( CMD_GLCD, 0x08 );
+			OutputData4( CMD_GLCD, LCD_CMD_FUNC | 0b01000 );	// 4bit, 2 lines, 5x8
+			OutputData4( CMD_GLCD, LCD_CMD_DISPOFF );
 
-			OutputData4( CMD_GLCD, 0x01 );
+			OutputData4( CMD_GLCD, LCD_CMD_CLEAR );
 
 			DelayGLCD( 6UL );
-			OutputData4( CMD_GLCD, 0x06 );
+			OutputData4( CMD_GLCD, LCD_CMD_ENTMODE | 0b010 );	// increment
+			OutputData4( CMD_GLCD, LCD_CMD_DISPON );
 
-		ActDataLCD;
-			OutputData4( CMD_GLCD, 0x0AA );
-			OutputData4( CMD_GLCD, 0x55 );
+//			strcpy( ( char * )buf0, "Hello, 31337." );
+//			strcpy( ( char * )buf1, "Test FreeRTOT\x08S" );
+//			putBufToLCD();
+			SetToBufLCD( 0, "Hello, 31337." );
+			SetToBufLCD( 1, "Test FreeRTOT\x08S" );
 	}
+#endif
+#ifdef GLCD
+	{
+		ActCmdLCD;
+		Addr0LowLCD;
+			OutputData( CMD_GLCD, LCD_CMD_DISPOFF );
+			DelayGLCD( 1200UL );
+			OutputData( CMD_GLCD, LCD_CMD_SLINE );
+			DelayGLCD( 120UL );
+			OutputData( CMD_GLCD, LCD_CMD_PADDR );
+			DelayGLCD( 2UL );
+			OutputData( CMD_GLCD, LCD_CMD_SADDR );
+
+			OutputData( CMD_GLCD, LCD_CMD_DISPON );
+
+			strcpy( ( char * )buf0, "Hello, 31337." );
+			putBufToLCD();
+	}
+#endif
 
 	// Exit: Initalize Complete
 //	privGPIOSetBitValue( LCD_DB_PORT, LCD_DBL, LOW );	//	Backlight Off
 }
 
+//
+//
 void OutputData( uint8_t target, uint8_t data )
 {
 	uint32_t databuf = 0;
@@ -173,6 +245,7 @@ void OutputData4sub( uint8_t data )
 	uint8_t	loop, datatmp;
 
 	datatmp = data;
+	datatmp <<= 4;
 	// generate output data
 	for( loop = 0; loop < 8; loop++ )
 	{
@@ -276,6 +349,90 @@ void setDatabusDirection( uint8_t direction )
 
 void setControlLineDirection()
 {
-//		LPC_GPIO->DIR[ LCD_CB_PORT ] &= ~LCD_CB;
 	LPC_GPIO->DIR[ LCD_CB_PORT ] |= LCD_CB;
+}
+
+//
+//
+void putBufToLCD()
+{
+#ifdef CLCD
+	uint8_t loop;
+
+	ActCmdLCD;
+		OutputData4( CMD_GLCD, LCD_CMD_CLEAR );	// Screen Clear
+		DelayGLCD( 10UL );
+		OutputData4( CMD_GLCD, LCD_CMD_ENTMODE | 0b010 ); // increment
+	ActDataLCD;
+		for( loop = 0; loop < 16; loop++ )
+		{
+			if( CHR_NULL == putCharToLCD( buf0[ loop ] ) )
+			{
+				break;
+			}
+		}
+		for( loop = 0; loop < 16; loop++ )
+		{
+			if( loop == 0 )
+			{
+	#ifdef CLCD
+				ActCmdLCD;
+					OutputData4( CMD_GLCD, LCD_CMD_DDADDR | 0x40 );	// 2nd line
+					OutputData4( CMD_GLCD, LCD_CMD_ENTMODE | 0b010 ); // increment
+	#endif
+				ActDataLCD;
+			}
+			if( CHR_NULL == putCharToLCD( buf1[ loop ] ) )
+			{
+				break;
+			}
+		}
+#endif
+#ifdef GLCD
+	uint8_t paddr, saddr;
+
+	ActCmdLCD;
+	Addr0LowLCD;
+		OutputData( CMD_GLCD, LCD_CMD_SLINE );
+		OutputData( CMD_GLCD, LCD_CMD_PADDR );
+		OutputData( CMD_GLCD, LCD_CMD_SADDR );
+		for( paddr = 0; paddr < 7; paddr++ )
+		{
+			ActCmdLCD;
+				OutputData( CMD_GLCD, LCD_CMD_PADDR + saddr );
+			ActDataLCD;
+				for( saddr = 0; saddr < 64; saddr++ )
+				{
+						OutputData( CMD_GLCD, buf0[ paddr * 8 + saddr ] );
+				}
+		}
+#endif
+}
+
+uint8_t putCharToLCD( uint8_t chr )
+{
+#ifdef CLCD
+	if( chr == BACKSPACE || chr == DELETE )	// '\x08' or '\x7F'
+	{
+		ActCmdLCD;
+			OutputData4( CMD_GLCD, LCD_CMD_ENTMODE | 0b000 ); // decrement
+		ActDataLCD;
+			OutputData4( CMD_GLCD, ' ' );
+		ActCmdLCD;
+			OutputData4( CMD_GLCD, LCD_CMD_ENTMODE | 0b010 ); // increment
+		ActDataLCD;
+	}
+	else
+#endif
+	if( chr == CHR_NULL )
+	{
+		return chr;
+	}
+	else
+	{
+		// ActDataLCD;
+			OutputData4( CMD_GLCD, chr );
+	}
+
+	return chr;
 }

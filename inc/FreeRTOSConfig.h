@@ -92,6 +92,9 @@
 #define configUSE_APPLICATION_TASK_TAG	0
 #define configUSE_COUNTING_SEMAPHORES	1
 #define configGENERATE_RUN_TIME_STATS	0
+#define configINCLUDE_FREERTOS_TASK_C_ADDITIONS_H	1
+#define configGENERATE_RUNTIME_STATS	1
+#define configRECORD_STACK_HIGH_ADDRESS 1
 
 /* Co-routine definitions. */
 #define configUSE_CO_ROUTINES 		0

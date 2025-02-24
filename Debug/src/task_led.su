@@ -1,0 +1,2 @@
+../src/task_led.c:22:6:Init_vLEDTask	24	static
+../src/task_led.c:30:13:vLEDTask	32	static

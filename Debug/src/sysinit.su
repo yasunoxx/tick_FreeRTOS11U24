@@ -1,0 +1,2 @@
+../src/sysinit.c:33:6:SystemInit	8	static
+../src/sysinit.c:44:6:Bb_LPC11U24_SYSCONInit	8	static

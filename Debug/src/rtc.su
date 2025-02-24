@@ -1,0 +1,3 @@
+../src/rtc.c:33:6:InitPCF8523	16	static
+../src/rtc.c:82:13:GetTimePCF8523	32	static
+../src/rtc.c:108:6:SetTimePCF8523	16	static
