@@ -21,6 +21,7 @@ extern void premain( void ); //premain.c
 
 extern void Init_vLCDTask( void );	// task_led.c
 extern void Init_vLEDTask( void );	// task_lcd.c
+
 xSemaphoreHandle pLCDSemaphore;
 
 /*****************************************************************************
@@ -54,10 +55,6 @@ int main( void )
 
 	Init_vLEDTask();
 	Init_vLCDTask();
-
-#ifdef USE_SEMAPHORE
-	pLCDSemaphore = xSemaphoreCreateMutex();
-#endif
 
 	/* Null thread */
 	xTaskCreate( vTask0, ( signed char * )"vTask0",

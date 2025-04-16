@@ -12,9 +12,9 @@
 #include "reg_pcf8523.h"
 
 extern bool InitPCF8523( void );
-extern void GetTimePCF8523( void );
+extern bool GetTimePCF8523( void );
 extern void SetTimePCF8523( void );
-extern uint8_t TimePCF8523[ 3 ][ 2 ];
+extern uint8_t TimePCF8523[ 4 ][ 2 ];
 #ifndef High
 #define High	1
 #endif
@@ -24,3 +24,4 @@ extern uint8_t TimePCF8523[ 3 ][ 2 ];
 #define Second	0
 #define	Minute	1
 #define	Hour	2
+#define	Day		3

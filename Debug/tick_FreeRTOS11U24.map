@@ -1663,7 +1663,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x5e ./src/glcd.o
  .debug_macro   0x00000000       0x57 ./src/glcd.o
  .debug_macro   0x00000000       0x5e ./src/glcd.o
- .debug_macro   0x00000000      0x172 ./src/glcd.o
+ .debug_macro   0x00000000      0x178 ./src/glcd.o
  .group         0x00000000        0xc ./src/i2c_11xx.o
  .group         0x00000000        0xc ./src/i2c_11xx.o
  .group         0x00000000        0xc ./src/i2c_11xx.o
@@ -2082,7 +2082,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x82 ./src/premain.o
  .debug_macro   0x00000000       0x5e ./src/premain.o
  .debug_macro   0x00000000       0x52 ./src/premain.o
- .debug_macro   0x00000000      0x172 ./src/premain.o
+ .debug_macro   0x00000000      0x178 ./src/premain.o
  .debug_macro   0x00000000       0x22 ./src/premain.o
  .debug_macro   0x00000000       0xca ./src/premain.o
  .debug_macro   0x00000000       0x10 ./src/premain.o
@@ -2183,8 +2183,6 @@ Discarded input sections
  .text          0x00000000        0x0 ./src/rtc.o
  .data          0x00000000        0x0 ./src/rtc.o
  .bss           0x00000000        0x0 ./src/rtc.o
- .text.SetTimePCF8523
-                0x00000000       0x60 ./src/rtc.o
  .debug_macro   0x00000000      0xac6 ./src/rtc.o
  .debug_macro   0x00000000       0x22 ./src/rtc.o
  .debug_macro   0x00000000       0x8e ./src/rtc.o
@@ -2526,12 +2524,12 @@ Discarded input sections
  .debug_macro   0x00000000       0x16 ./src/task_lcd.o
  .debug_macro   0x00000000       0x3c ./src/task_lcd.o
  .debug_macro   0x00000000       0x5e ./src/task_lcd.o
- .debug_macro   0x00000000      0x172 ./src/task_lcd.o
+ .debug_macro   0x00000000      0x178 ./src/task_lcd.o
  .debug_macro   0x00000000       0x22 ./src/task_lcd.o
  .debug_macro   0x00000000       0xca ./src/task_lcd.o
  .debug_macro   0x00000000       0x10 ./src/task_lcd.o
  .debug_macro   0x00000000      0x106 ./src/task_lcd.o
- .debug_macro   0x00000000       0x22 ./src/task_lcd.o
+ .debug_macro   0x00000000       0x28 ./src/task_lcd.o
  .group         0x00000000        0xc ./src/task_led.o
  .group         0x00000000        0xc ./src/task_led.o
  .group         0x00000000        0xc ./src/task_led.o
@@ -3562,7 +3560,7 @@ END GROUP
                 0x20004800                        __top_RamUsb2 = 0x20004800
                 0x20004800                        __top_RAM2 = 0x20004800
 
-.text           0x00000000     0x3ec4
+.text           0x00000000     0x434c
  FILL mask 0xff
                 0x00000000                        __vectors_start__ = ABSOLUTE (.)
  *(.isr_vector)
@@ -3571,10 +3569,10 @@ END GROUP
                 0x000000c0                        . = ALIGN (0x4)
                 0x000000c0                        __section_table_start = .
                 0x000000c0                        __data_section_table = .
-                0x000000c0        0x4 LONG 0x3ec4 LOADADDR (.data)
+                0x000000c0        0x4 LONG 0x434c LOADADDR (.data)
                 0x000000c4        0x4 LONG 0x10000000 ADDR (.data)
                 0x000000c8        0x4 LONG 0x560 SIZEOF (.data)
-                0x000000cc        0x4 LONG 0x3ec4 LOADADDR (.data_RAM2)
+                0x000000cc        0x4 LONG 0x434c LOADADDR (.data_RAM2)
                 0x000000d0        0x4 LONG 0x20004000 ADDR (.data_RAM2)
                 0x000000d4        0x4 LONG 0x0 SIZEOF (.data_RAM2)
                 0x000000d8                        __data_section_table_end = .
@@ -3896,167 +3894,174 @@ END GROUP
  .text.GPIOSetDir
                 0x00002738       0x7e ./src/privgpio.o
                 0x00002738                GPIOSetDir
+ *fill*         0x000027b6        0x2 ff
+ .text.prvTimeComp
+                0x000027b8      0x1c8 ./src/rtc.o
+                0x000027b8                prvTimeComp
  .text.InitPCF8523
-                0x000027b6      0x10e ./src/rtc.o
-                0x000027b6                InitPCF8523
+                0x00002980      0x148 ./src/rtc.o
+                0x00002980                InitPCF8523
  .text.GetTimePCF8523
-                0x000028c4       0x9c ./src/rtc.o
-                0x000028c4                GetTimePCF8523
+                0x00002ac8      0x204 ./src/rtc.o
+                0x00002ac8                GetTimePCF8523
+ .text.SetTimePCF8523
+                0x00002ccc       0x8c ./src/rtc.o
+                0x00002ccc                SetTimePCF8523
  .text.SYSCON_AssertPeriphReset
-                0x00002960       0x30 ./src/sysinit_Bb-LPC11U24custom.o
-                0x00002960                SYSCON_AssertPeriphReset
+                0x00002d58       0x30 ./src/sysinit_Bb-LPC11U24custom.o
+                0x00002d58                SYSCON_AssertPeriphReset
  .text.SYSCON_DeassertPeriphReset
-                0x00002990       0x30 ./src/sysinit_Bb-LPC11U24custom.o
-                0x00002990                SYSCON_DeassertPeriphReset
+                0x00002d88       0x30 ./src/sysinit_Bb-LPC11U24custom.o
+                0x00002d88                SYSCON_DeassertPeriphReset
  .text.SYSCON_PeriphReset
-                0x000029c0       0x28 ./src/sysinit_Bb-LPC11U24custom.o
-                0x000029c0                SYSCON_PeriphReset
+                0x00002db8       0x28 ./src/sysinit_Bb-LPC11U24custom.o
+                0x00002db8                SYSCON_PeriphReset
  .text.SystemSetupMuxing
-                0x000029e8       0x74 ./src/sysinit_Bb-LPC11U24custom.o
-                0x000029e8                SystemSetupMuxing
+                0x00002de0       0x74 ./src/sysinit_Bb-LPC11U24custom.o
+                0x00002de0                SystemSetupMuxing
  .text.Bb_LPC11U24_SYSCONInit
-                0x00002a5c       0x74 ./src/sysinit_Bb-LPC11U24custom.o
-                0x00002a5c                Bb_LPC11U24_SYSCONInit
+                0x00002e54       0x74 ./src/sysinit_Bb-LPC11U24custom.o
+                0x00002e54                Bb_LPC11U24_SYSCONInit
  .text.Init_vLCDTask
-                0x00002ad0       0x78 ./src/task_lcd.o
-                0x00002ad0                Init_vLCDTask
+                0x00002ec8       0x78 ./src/task_lcd.o
+                0x00002ec8                Init_vLCDTask
  .text.vLCDTask
-                0x00002b48      0x1ec ./src/task_lcd.o
+                0x00002f40      0x26c ./src/task_lcd.o
  .text.Init_vLEDTask
-                0x00002d34       0x30 ./src/task_led.o
-                0x00002d34                Init_vLEDTask
+                0x000031ac       0x30 ./src/task_led.o
+                0x000031ac                Init_vLEDTask
  .text.vLEDTask
-                0x00002d64       0x70 ./src/task_led.o
+                0x000031dc       0x70 ./src/task_led.o
  .text.SystemCoreClockUpdate
-                0x00002dd4       0x90 ../CMSISv2p00/Debug/libCMSISv2p00_LPC11Uxx.a(system_LPC11Uxx.o)
-                0x00002dd4                SystemCoreClockUpdate
+                0x0000324c       0x90 ../CMSISv2p00/Debug/libCMSISv2p00_LPC11Uxx.a(system_LPC11Uxx.o)
+                0x0000324c                SystemCoreClockUpdate
  .text.SystemInit
-                0x00002e64       0xc8 ../CMSISv2p00/Debug/libCMSISv2p00_LPC11Uxx.a(system_LPC11Uxx.o)
-                0x00002e64                SystemInit
- .text          0x00002f2c      0x114 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libgcc.a(_udivsi3.o)
-                0x00002f2c                __aeabi_uidiv
-                0x00002f2c                __udivsi3
-                0x00003038                __aeabi_uidivmod
- .text          0x00003040        0x4 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libgcc.a(_dvmd_tls.o)
-                0x00003040                __aeabi_idiv0
-                0x00003040                __aeabi_ldiv0
- .text.malloc   0x00003044       0x14 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-malloc.o)
-                0x00003044                malloc
+                0x000032dc       0xc8 ../CMSISv2p00/Debug/libCMSISv2p00_LPC11Uxx.a(system_LPC11Uxx.o)
+                0x000032dc                SystemInit
+ .text          0x000033a4      0x114 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libgcc.a(_udivsi3.o)
+                0x000033a4                __aeabi_uidiv
+                0x000033a4                __udivsi3
+                0x000034b0                __aeabi_uidivmod
+ .text          0x000034b8        0x4 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libgcc.a(_dvmd_tls.o)
+                0x000034b8                __aeabi_idiv0
+                0x000034b8                __aeabi_ldiv0
+ .text.malloc   0x000034bc       0x14 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-malloc.o)
+                0x000034bc                malloc
  .text._malloc_r
-                0x00003058      0x5c4 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-mallocr.o)
-                0x00003058                _malloc_r
+                0x000034d0      0x5c4 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-mallocr.o)
+                0x000034d0                _malloc_r
  .text.__malloc_lock
-                0x0000361c       0x10 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-mlock.o)
-                0x0000361c                __malloc_lock
+                0x00003a94       0x10 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-mlock.o)
+                0x00003a94                __malloc_lock
  .text.__malloc_unlock
-                0x0000362c       0x10 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-mlock.o)
-                0x0000362c                __malloc_unlock
- .text.memcmp   0x0000363c       0x48 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-memcmp.o)
-                0x0000363c                memcmp
- .text.memset   0x00003684       0xa8 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-memset.o)
-                0x00003684                memset
- .text.strncat  0x0000372c       0x68 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-strncat.o)
-                0x0000372c                strncat
- .text.strncpy  0x00003794       0x60 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-strncpy.o)
-                0x00003794                strncpy
- .text._sbrk_r  0x000037f4       0x24 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-sbrkr.o)
-                0x000037f4                _sbrk_r
+                0x00003aa4       0x10 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-mlock.o)
+                0x00003aa4                __malloc_unlock
+ .text.memcmp   0x00003ab4       0x48 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-memcmp.o)
+                0x00003ab4                memcmp
+ .text.memset   0x00003afc       0xa8 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-memset.o)
+                0x00003afc                memset
+ .text.strncat  0x00003ba4       0x68 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-strncat.o)
+                0x00003ba4                strncat
+ .text.strncpy  0x00003c0c       0x60 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-strncpy.o)
+                0x00003c0c                strncpy
+ .text._sbrk_r  0x00003c6c       0x24 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-sbrkr.o)
+                0x00003c6c                _sbrk_r
  .text.__retarget_lock_acquire_recursive
-                0x00003818        0x4 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-lock.o)
-                0x00003818                __retarget_lock_acquire_recursive
+                0x00003c90        0x4 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-lock.o)
+                0x00003c90                __retarget_lock_acquire_recursive
  .text.__retarget_lock_release_recursive
-                0x0000381c        0x4 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-lock.o)
-                0x0000381c                __retarget_lock_release_recursive
- .text.sysconf  0x00003820       0x1c C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-sysconf.o)
-                0x00003820                sysconf
- .text.strcpy   0x0000383c       0x10 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-strcpy.o)
-                0x0000383c                strcpy
- .text.memcpy   0x0000384c       0x8c C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-memcpy-stub.o)
-                0x0000384c                memcpy
+                0x00003c94        0x4 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-lock.o)
+                0x00003c94                __retarget_lock_release_recursive
+ .text.sysconf  0x00003c98       0x1c C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-sysconf.o)
+                0x00003c98                sysconf
+ .text.strcpy   0x00003cb4       0x10 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-strcpy.o)
+                0x00003cb4                strcpy
+ .text.memcpy   0x00003cc4       0x8c C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-memcpy-stub.o)
+                0x00003cc4                memcpy
  .text._malloc_trim_r
-                0x000038d8       0xb4 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-freer.o)
-                0x000038d8                _malloc_trim_r
- .text._free_r  0x0000398c      0x1d4 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-freer.o)
-                0x0000398c                _free_r
- .text.__errno  0x00003b60        0xc C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-errno.o)
-                0x00003b60                __errno
- .text._sbrk    0x00003b6c       0x40 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_newlib_none.a(_cr_sbrk.o)
-                0x00003b6c                _sbrk
+                0x00003d50       0xb4 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-freer.o)
+                0x00003d50                _malloc_trim_r
+ .text._free_r  0x00003e04      0x1d4 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-freer.o)
+                0x00003e04                _free_r
+ .text.__errno  0x00003fd8        0xc C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-errno.o)
+                0x00003fd8                __errno
+ .text._sbrk    0x00003fe4       0x40 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_newlib_none.a(_cr_sbrk.o)
+                0x00003fe4                _sbrk
  .text.__check_heap_overflow
-                0x00003bac       0x18 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_newlib_none.a(_cr_check_heap.o)
-                0x00003bac                __check_heap_overflow
+                0x00004024       0x18 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_newlib_none.a(_cr_check_heap.o)
+                0x00004024                __check_heap_overflow
  */tasks.o(.rodata*)
  .rodata.vTaskStartScheduler.str1.4
-                0x00003bc4       0x6a ./src/freertos/src/tasks.o
+                0x0000403c       0x7a ./src/freertos/src/tasks.o
                                   0x5 (size before relaxing)
  .rodata.vTaskList.str1.4
-                0x00003c2e        0x3 ./src/freertos/src/tasks.o
+                0x000040b6        0x3 ./src/freertos/src/tasks.o
  .rodata.prvListTaskWithinSingleList.str1.4
-                0x00003c2e       0x12 ./src/freertos/src/tasks.o
- *fill*         0x00003c2e        0x2 ff
+                0x000040b6       0x12 ./src/freertos/src/tasks.o
+ *fill*         0x000040b6        0x2 ff
  .rodata.portArch_Name
-                0x00003c30        0x4 ./src/freertos/src/tasks.o
-                0x00003c30                portArch_Name
- .rodata        0x00003c34       0x10 ./src/freertos/src/tasks.o
-                0x00003c34                FreeRTOSDebugConfig
+                0x000040b8        0x4 ./src/freertos/src/tasks.o
+                0x000040b8                portArch_Name
+ .rodata        0x000040bc       0x10 ./src/freertos/src/tasks.o
+                0x000040bc                FreeRTOSDebugConfig
  .rodata.ucExpectedStackBytes.1
-                0x00003c44       0x14 ./src/freertos/src/tasks.o
+                0x000040cc       0x14 ./src/freertos/src/tasks.o
  *(.rodata .rodata.* .constdata .constdata.*)
  .rodata.OscRateIn
-                0x00003c58        0x4 ./src/board/src/board.o
-                0x00003c58                OscRateIn
+                0x000040e0        0x4 ./src/board/src/board.o
+                0x000040e0                OscRateIn
  .rodata.wdtOSCRate
-                0x00003c5c       0x40 ./src/clock_11xx.o
+                0x000040e4       0x40 ./src/clock_11xx.o
  .rodata.main.str1.4
-                0x00003c9c        0x7 ./src/freertos_blinky.o
+                0x00004124        0x7 ./src/freertos_blinky.o
  .rodata.bitlines
-                0x00003c9c       0x80 ./src/glcd.o
-                0x00003c9c                bitlines
+                0x00004124       0x80 ./src/glcd.o
+                0x00004124                bitlines
  .rodata.bitpos
-                0x00003d1c        0x8 ./src/glcd.o
-                0x00003d1c                bitpos
+                0x000041a4        0x8 ./src/glcd.o
+                0x000041a4                bitpos
  .rodata.InitGLCD2.str1.4
-                0x00003d24       0x20 ./src/glcd.o
+                0x000041ac       0x20 ./src/glcd.o
  .rodata.handleMasterXferState
-                0x00003d24      0x164 ./src/i2c_11xx.o
+                0x000041ac      0x164 ./src/i2c_11xx.o
  .rodata.Init_vLCDTask.str1.4
-                0x00003e88        0x9 ./src/task_lcd.o
+                0x00004310        0x9 ./src/task_lcd.o
  .rodata.vLCDTask.str1.4
-                0x00003e88        0xd ./src/task_lcd.o
+                0x00004310       0x1e ./src/task_lcd.o
  .rodata.Init_vLEDTask.str1.4
-                0x00003e88        0xa ./src/task_led.o
+                0x00004310        0xa ./src/task_led.o
  .rodata.CSWTCH.5
-                0x00003e88       0x3c ../CMSISv2p00/Debug/libCMSISv2p00_LPC11Uxx.a(system_LPC11Uxx.o)
-                0x00003ec4                        . = ALIGN (0x4)
+                0x00004310       0x3c ../CMSISv2p00/Debug/libCMSISv2p00_LPC11Uxx.a(system_LPC11Uxx.o)
+                0x0000434c                        . = ALIGN (0x4)
 
-.glue_7         0x00003ec4        0x0
- .glue_7        0x00003ec4        0x0 linker stubs
+.glue_7         0x0000434c        0x0
+ .glue_7        0x0000434c        0x0 linker stubs
 
-.glue_7t        0x00003ec4        0x0
- .glue_7t       0x00003ec4        0x0 linker stubs
+.glue_7t        0x0000434c        0x0
+ .glue_7t       0x0000434c        0x0 linker stubs
 
-.vfp11_veneer   0x00003ec4        0x0
- .vfp11_veneer  0x00003ec4        0x0 linker stubs
+.vfp11_veneer   0x0000434c        0x0
+ .vfp11_veneer  0x0000434c        0x0 linker stubs
 
-.v4_bx          0x00003ec4        0x0
- .v4_bx         0x00003ec4        0x0 linker stubs
+.v4_bx          0x0000434c        0x0
+ .v4_bx         0x0000434c        0x0 linker stubs
 
-.iplt           0x00003ec4        0x0
- .iplt          0x00003ec4        0x0 ./src/freertos/src/FreeRTOSCommonHooks.o
+.iplt           0x0000434c        0x0
+ .iplt          0x0000434c        0x0 ./src/freertos/src/FreeRTOSCommonHooks.o
 
-.rel.dyn        0x00003ec4        0x0
- .rel.iplt      0x00003ec4        0x0 ./src/freertos/src/FreeRTOSCommonHooks.o
+.rel.dyn        0x0000434c        0x0
+ .rel.iplt      0x0000434c        0x0 ./src/freertos/src/FreeRTOSCommonHooks.o
 
 .ARM.extab
  *(.ARM.extab* .gnu.linkonce.armextab.*)
 
-.ARM.exidx      0x00003ec4        0x0
-                0x00003ec4                        __exidx_start = .
+.ARM.exidx      0x0000434c        0x0
+                0x0000434c                        __exidx_start = .
  *(.ARM.exidx* .gnu.linkonce.armexidx.*)
-                0x00003ec4                        __exidx_end = .
-                0x00003ec4                        _etext = .
+                0x0000434c                        __exidx_end = .
+                0x0000434c                        _etext = .
 
-.data_RAM2      0x20004000        0x0 load address 0x00003ec4
+.data_RAM2      0x20004000        0x0 load address 0x0000434c
  FILL mask 0xff
                 [!provide]                        PROVIDE (__start_data_RAM2 = .)
                 [!provide]                        PROVIDE (__start_data_RamUsb2 = .)
@@ -4077,7 +4082,7 @@ END GROUP
                 0x10000000                        . = ALIGN (0x4)
                 0x10000000                        _end_uninit_RESERVED = .
 
-.data           0x10000000      0x560 load address 0x00003ec4
+.data           0x10000000      0x560 load address 0x0000434c
  FILL mask 0xff
                 0x10000000                        _data = .
                 [!provide]                        PROVIDE (__start_data_RAM = .)
@@ -4117,7 +4122,7 @@ END GROUP
                 [!provide]                        PROVIDE (__end_data_RAM = .)
                 [!provide]                        PROVIDE (__end_data_RamLoc6 = .)
 
-.igot.plt       0x10000560        0x0 load address 0x00004424
+.igot.plt       0x10000560        0x0 load address 0x000048ac
  .igot.plt      0x10000560        0x0 ./src/freertos/src/FreeRTOSCommonHooks.o
 
 .bss_RAM2       0x20004000        0x0
@@ -4192,9 +4197,8 @@ END GROUP
  .bss.tempbuf   0x10000eb0        0x4 ./src/glcd.o
                 0x10000eb0                tempbuf
  .bss.TimePCF8523
-                0x10000eb4        0x6 ./src/rtc.o
+                0x10000eb4        0x8 ./src/rtc.o
                 0x10000eb4                TimePCF8523
- *fill*         0x10000eba        0x2 
  .bss.pLCDQueue
                 0x10000ebc        0x4 ./src/task_lcd.o
                 0x10000ebc                pLCDQueue
@@ -4252,12 +4256,12 @@ END GROUP
                 0x10001800                        PROVIDE (_vStackTop = DEFINED (__user_stack_top)?__user_stack_top:(__top_RamLoc6 - 0x0))
                 [!provide]                        PROVIDE (__valid_user_code_checksum = (0x0 - (((_vStackTop + (ResetISR + 0x1)) + (DEFINED (NMI_Handler)?NMI_Handler:M0_NMI_Handler + 0x1)) + (DEFINED (HardFault_Handler)?HardFault_Handler:M0_HardFault_Handler + 0x1))))
                 0x00000000                        _image_start = LOADADDR (.text)
-                0x00004424                        _image_end = (LOADADDR (.data) + SIZEOF (.data))
-                0x00004424                        _image_size = (_image_end - _image_start)
+                0x000048ac                        _image_end = (LOADADDR (.data) + SIZEOF (.data))
+                0x000048ac                        _image_size = (_image_end - _image_start)
 OUTPUT(tick_FreeRTOS11U24.axf elf32-littlearm)
 LOAD linker stubs
 
-.debug_info     0x00000000     0x71f3
+.debug_info     0x00000000     0x728a
  .debug_info    0x00000000      0x1ab ./src/freertos/src/FreeRTOSCommonHooks.o
  .debug_info    0x000001ab      0x1aa ./src/freertos/src/heap_1.o
  .debug_info    0x00000355      0x2b4 ./src/freertos/src/list.o
@@ -4273,13 +4277,13 @@ LOAD linker stubs
  .debug_info    0x000050dc      0x4ab ./src/iic.o
  .debug_info    0x00005587      0x117 ./src/premain.o
  .debug_info    0x0000569e      0x3a8 ./src/privgpio.o
- .debug_info    0x00005a46      0x243 ./src/rtc.o
- .debug_info    0x00005c89      0x8f7 ./src/sysinit_Bb-LPC11U24custom.o
- .debug_info    0x00006580      0x446 ./src/task_lcd.o
- .debug_info    0x000069c6      0x28e ./src/task_led.o
- .debug_info    0x00006c54      0x59f ../CMSISv2p00/Debug/libCMSISv2p00_LPC11Uxx.a(system_LPC11Uxx.o)
+ .debug_info    0x00005a46      0x2ce ./src/rtc.o
+ .debug_info    0x00005d14      0x8f7 ./src/sysinit_Bb-LPC11U24custom.o
+ .debug_info    0x0000660b      0x452 ./src/task_lcd.o
+ .debug_info    0x00006a5d      0x28e ./src/task_led.o
+ .debug_info    0x00006ceb      0x59f ../CMSISv2p00/Debug/libCMSISv2p00_LPC11Uxx.a(system_LPC11Uxx.o)
 
-.debug_abbrev   0x00000000     0x2153
+.debug_abbrev   0x00000000     0x2178
  .debug_abbrev  0x00000000      0x12b ./src/freertos/src/FreeRTOSCommonHooks.o
  .debug_abbrev  0x0000012b      0x143 ./src/freertos/src/heap_1.o
  .debug_abbrev  0x0000026e       0xeb ./src/freertos/src/list.o
@@ -4295,13 +4299,13 @@ LOAD linker stubs
  .debug_abbrev  0x00001669      0x1f5 ./src/iic.o
  .debug_abbrev  0x0000185e       0x96 ./src/premain.o
  .debug_abbrev  0x000018f4      0x187 ./src/privgpio.o
- .debug_abbrev  0x00001a7b      0x129 ./src/rtc.o
- .debug_abbrev  0x00001ba4      0x15e ./src/sysinit_Bb-LPC11U24custom.o
- .debug_abbrev  0x00001d02      0x1cc ./src/task_lcd.o
- .debug_abbrev  0x00001ece      0x147 ./src/task_led.o
- .debug_abbrev  0x00002015      0x13e ../CMSISv2p00/Debug/libCMSISv2p00_LPC11Uxx.a(system_LPC11Uxx.o)
+ .debug_abbrev  0x00001a7b      0x14e ./src/rtc.o
+ .debug_abbrev  0x00001bc9      0x15e ./src/sysinit_Bb-LPC11U24custom.o
+ .debug_abbrev  0x00001d27      0x1cc ./src/task_lcd.o
+ .debug_abbrev  0x00001ef3      0x147 ./src/task_led.o
+ .debug_abbrev  0x0000203a      0x13e ../CMSISv2p00/Debug/libCMSISv2p00_LPC11Uxx.a(system_LPC11Uxx.o)
 
-.debug_aranges  0x00000000      0x808
+.debug_aranges  0x00000000      0x810
  .debug_aranges
                 0x00000000       0x40 ./src/freertos/src/FreeRTOSCommonHooks.o
  .debug_aranges
@@ -4333,17 +4337,17 @@ LOAD linker stubs
  .debug_aranges
                 0x000006f0       0x30 ./src/privgpio.o
  .debug_aranges
-                0x00000720       0x30 ./src/rtc.o
+                0x00000720       0x38 ./src/rtc.o
  .debug_aranges
-                0x00000750       0x40 ./src/sysinit_Bb-LPC11U24custom.o
+                0x00000758       0x40 ./src/sysinit_Bb-LPC11U24custom.o
  .debug_aranges
-                0x00000790       0x28 ./src/task_lcd.o
+                0x00000798       0x28 ./src/task_lcd.o
  .debug_aranges
-                0x000007b8       0x28 ./src/task_led.o
+                0x000007c0       0x28 ./src/task_led.o
  .debug_aranges
-                0x000007e0       0x28 ../CMSISv2p00/Debug/libCMSISv2p00_LPC11Uxx.a(system_LPC11Uxx.o)
+                0x000007e8       0x28 ../CMSISv2p00/Debug/libCMSISv2p00_LPC11Uxx.a(system_LPC11Uxx.o)
 
-.debug_ranges   0x00000000      0x6c8
+.debug_ranges   0x00000000      0x6d0
  .debug_ranges  0x00000000       0x30 ./src/freertos/src/FreeRTOSCommonHooks.o
  .debug_ranges  0x00000030       0x28 ./src/freertos/src/heap_1.o
  .debug_ranges  0x00000058       0x30 ./src/freertos/src/list.o
@@ -4359,13 +4363,13 @@ LOAD linker stubs
  .debug_ranges  0x000005d8       0x28 ./src/iic.o
  .debug_ranges  0x00000600       0x10 ./src/premain.o
  .debug_ranges  0x00000610       0x20 ./src/privgpio.o
- .debug_ranges  0x00000630       0x20 ./src/rtc.o
- .debug_ranges  0x00000650       0x30 ./src/sysinit_Bb-LPC11U24custom.o
- .debug_ranges  0x00000680       0x18 ./src/task_lcd.o
- .debug_ranges  0x00000698       0x18 ./src/task_led.o
- .debug_ranges  0x000006b0       0x18 ../CMSISv2p00/Debug/libCMSISv2p00_LPC11Uxx.a(system_LPC11Uxx.o)
+ .debug_ranges  0x00000630       0x28 ./src/rtc.o
+ .debug_ranges  0x00000658       0x30 ./src/sysinit_Bb-LPC11U24custom.o
+ .debug_ranges  0x00000688       0x18 ./src/task_lcd.o
+ .debug_ranges  0x000006a0       0x18 ./src/task_led.o
+ .debug_ranges  0x000006b8       0x18 ../CMSISv2p00/Debug/libCMSISv2p00_LPC11Uxx.a(system_LPC11Uxx.o)
 
-.debug_macro    0x00000000     0x844b
+.debug_macro    0x00000000     0x8464
  .debug_macro   0x00000000      0x2ea ./src/freertos/src/FreeRTOSCommonHooks.o
  .debug_macro   0x000002ea      0xac6 ./src/freertos/src/FreeRTOSCommonHooks.o
  .debug_macro   0x00000db0      0x190 ./src/freertos/src/FreeRTOSCommonHooks.o
@@ -4454,37 +4458,37 @@ LOAD linker stubs
  .debug_macro   0x00004f12      0x12d ./src/freertos_blinky.o
  .debug_macro   0x0000503f       0x78 ./src/freertos_blinky.o
  .debug_macro   0x000050b7       0x5e ./src/freertos_blinky.o
- .debug_macro   0x00005115      0x172 ./src/freertos_blinky.o
- .debug_macro   0x00005287      0x36d ./src/glcd.o
- .debug_macro   0x000055f4       0x10 ./src/glcd.o
- .debug_macro   0x00005604       0x82 ./src/glcd.o
- .debug_macro   0x00005686       0x52 ./src/glcd.o
- .debug_macro   0x000056d8      0x196 ./src/i2c_11xx.o
- .debug_macro   0x0000586e      0x31d ./src/iic.o
- .debug_macro   0x00005b8b       0x22 ./src/iic.o
- .debug_macro   0x00005bad       0xca ./src/iic.o
- .debug_macro   0x00005c77       0x10 ./src/iic.o
- .debug_macro   0x00005c87      0x334 ./src/premain.o
- .debug_macro   0x00005fbb       0x2e ./src/premain.o
- .debug_macro   0x00005fe9       0xa6 ./src/privgpio.o
- .debug_macro   0x0000608f       0x1c ./src/privgpio.o
- .debug_macro   0x000060ab      0x10e ./src/privgpio.o
- .debug_macro   0x000061b9      0x38a ./src/rtc.o
- .debug_macro   0x00006543      0x106 ./src/rtc.o
- .debug_macro   0x00006649       0x22 ./src/rtc.o
- .debug_macro   0x0000666b      0x204 ./src/sysinit_Bb-LPC11U24custom.o
- .debug_macro   0x0000686f       0x2e ./src/sysinit_Bb-LPC11U24custom.o
- .debug_macro   0x0000689d      0x37e ./src/task_lcd.o
- .debug_macro   0x00006c1b      0x309 ./src/task_led.o
- .debug_macro   0x00006f24      0x117 ../CMSISv2p00/Debug/libCMSISv2p00_LPC11Uxx.a(system_LPC11Uxx.o)
- .debug_macro   0x0000703b      0xaba ../CMSISv2p00/Debug/libCMSISv2p00_LPC11Uxx.a(system_LPC11Uxx.o)
- .debug_macro   0x00007af5       0x10 ../CMSISv2p00/Debug/libCMSISv2p00_LPC11Uxx.a(system_LPC11Uxx.o)
- .debug_macro   0x00007b05      0x12e ../CMSISv2p00/Debug/libCMSISv2p00_LPC11Uxx.a(system_LPC11Uxx.o)
- .debug_macro   0x00007c33      0x5b3 ../CMSISv2p00/Debug/libCMSISv2p00_LPC11Uxx.a(system_LPC11Uxx.o)
- .debug_macro   0x000081e6       0x2e ../CMSISv2p00/Debug/libCMSISv2p00_LPC11Uxx.a(system_LPC11Uxx.o)
- .debug_macro   0x00008214      0x237 ../CMSISv2p00/Debug/libCMSISv2p00_LPC11Uxx.a(system_LPC11Uxx.o)
+ .debug_macro   0x00005115      0x178 ./src/freertos_blinky.o
+ .debug_macro   0x0000528d      0x36d ./src/glcd.o
+ .debug_macro   0x000055fa       0x10 ./src/glcd.o
+ .debug_macro   0x0000560a       0x82 ./src/glcd.o
+ .debug_macro   0x0000568c       0x52 ./src/glcd.o
+ .debug_macro   0x000056de      0x196 ./src/i2c_11xx.o
+ .debug_macro   0x00005874      0x31d ./src/iic.o
+ .debug_macro   0x00005b91       0x22 ./src/iic.o
+ .debug_macro   0x00005bb3       0xca ./src/iic.o
+ .debug_macro   0x00005c7d       0x10 ./src/iic.o
+ .debug_macro   0x00005c8d      0x334 ./src/premain.o
+ .debug_macro   0x00005fc1       0x2e ./src/premain.o
+ .debug_macro   0x00005fef       0xa6 ./src/privgpio.o
+ .debug_macro   0x00006095       0x1c ./src/privgpio.o
+ .debug_macro   0x000060b1      0x10e ./src/privgpio.o
+ .debug_macro   0x000061bf      0x397 ./src/rtc.o
+ .debug_macro   0x00006556      0x106 ./src/rtc.o
+ .debug_macro   0x0000665c       0x28 ./src/rtc.o
+ .debug_macro   0x00006684      0x204 ./src/sysinit_Bb-LPC11U24custom.o
+ .debug_macro   0x00006888       0x2e ./src/sysinit_Bb-LPC11U24custom.o
+ .debug_macro   0x000068b6      0x37e ./src/task_lcd.o
+ .debug_macro   0x00006c34      0x309 ./src/task_led.o
+ .debug_macro   0x00006f3d      0x117 ../CMSISv2p00/Debug/libCMSISv2p00_LPC11Uxx.a(system_LPC11Uxx.o)
+ .debug_macro   0x00007054      0xaba ../CMSISv2p00/Debug/libCMSISv2p00_LPC11Uxx.a(system_LPC11Uxx.o)
+ .debug_macro   0x00007b0e       0x10 ../CMSISv2p00/Debug/libCMSISv2p00_LPC11Uxx.a(system_LPC11Uxx.o)
+ .debug_macro   0x00007b1e      0x12e ../CMSISv2p00/Debug/libCMSISv2p00_LPC11Uxx.a(system_LPC11Uxx.o)
+ .debug_macro   0x00007c4c      0x5b3 ../CMSISv2p00/Debug/libCMSISv2p00_LPC11Uxx.a(system_LPC11Uxx.o)
+ .debug_macro   0x000081ff       0x2e ../CMSISv2p00/Debug/libCMSISv2p00_LPC11Uxx.a(system_LPC11Uxx.o)
+ .debug_macro   0x0000822d      0x237 ../CMSISv2p00/Debug/libCMSISv2p00_LPC11Uxx.a(system_LPC11Uxx.o)
 
-.debug_line     0x00000000     0x958b
+.debug_line     0x00000000     0x96ea
  .debug_line    0x00000000      0x662 ./src/freertos/src/FreeRTOSCommonHooks.o
  .debug_line    0x00000662      0x689 ./src/freertos/src/heap_1.o
  .debug_line    0x00000ceb      0x6ec ./src/freertos/src/list.o
@@ -4500,34 +4504,34 @@ LOAD linker stubs
  .debug_line    0x0000657c      0x713 ./src/iic.o
  .debug_line    0x00006c8f      0x666 ./src/premain.o
  .debug_line    0x000072f5      0x3e7 ./src/privgpio.o
- .debug_line    0x000076dc      0x791 ./src/rtc.o
- .debug_line    0x00007e6d      0x51e ./src/sysinit_Bb-LPC11U24custom.o
- .debug_line    0x0000838b      0x76a ./src/task_lcd.o
- .debug_line    0x00008af5      0x642 ./src/task_led.o
- .debug_line    0x00009137      0x454 ../CMSISv2p00/Debug/libCMSISv2p00_LPC11Uxx.a(system_LPC11Uxx.o)
+ .debug_line    0x000076dc      0x8b3 ./src/rtc.o
+ .debug_line    0x00007f8f      0x51e ./src/sysinit_Bb-LPC11U24custom.o
+ .debug_line    0x000084ad      0x7a7 ./src/task_lcd.o
+ .debug_line    0x00008c54      0x642 ./src/task_led.o
+ .debug_line    0x00009296      0x454 ../CMSISv2p00/Debug/libCMSISv2p00_LPC11Uxx.a(system_LPC11Uxx.o)
 
-.debug_str      0x00000000    0x15a85
- .debug_str     0x00000000    0x15a85 ./src/freertos/src/FreeRTOSCommonHooks.o
+.debug_str      0x00000000    0x15ae6
+ .debug_str     0x00000000    0x15ae6 ./src/freertos/src/FreeRTOSCommonHooks.o
                                0xd472 (size before relaxing)
- .debug_str     0x00015a85     0xd5ab ./src/freertos/src/heap_1.o
- .debug_str     0x00015a85     0xd24f ./src/freertos/src/list.o
- .debug_str     0x00015a85     0xd6e9 ./src/freertos/src/port.o
- .debug_str     0x00015a85     0xe628 ./src/freertos/src/queue.o
- .debug_str     0x00015a85     0xef4b ./src/freertos/src/tasks.o
- .debug_str     0x00015a85     0xb628 ./src/board/src/board.o
- .debug_str     0x00015a85     0x866d ./src/clock_11xx.o
- .debug_str     0x00015a85     0x2fa0 ./src/cr_startup_lpc11xx.o
- .debug_str     0x00015a85     0xeb69 ./src/freertos_blinky.o
- .debug_str     0x00015a85     0xe19d ./src/glcd.o
- .debug_str     0x00015a85     0x8965 ./src/i2c_11xx.o
- .debug_str     0x00015a85     0xe07f ./src/iic.o
- .debug_str     0x00015a85     0xe3f8 ./src/premain.o
- .debug_str     0x00015a85     0x52d9 ./src/privgpio.o
- .debug_str     0x00015a85     0xde38 ./src/rtc.o
- .debug_str     0x00015a85     0x8f40 ./src/sysinit_Bb-LPC11U24custom.o
- .debug_str     0x00015a85     0xf47f ./src/task_lcd.o
- .debug_str     0x00015a85     0xe4d2 ./src/task_led.o
- .debug_str     0x00015a85     0x5e3a ../CMSISv2p00/Debug/libCMSISv2p00_LPC11Uxx.a(system_LPC11Uxx.o)
+ .debug_str     0x00015ae6     0xd5ab ./src/freertos/src/heap_1.o
+ .debug_str     0x00015ae6     0xd24f ./src/freertos/src/list.o
+ .debug_str     0x00015ae6     0xd6e9 ./src/freertos/src/port.o
+ .debug_str     0x00015ae6     0xe628 ./src/freertos/src/queue.o
+ .debug_str     0x00015ae6     0xef4b ./src/freertos/src/tasks.o
+ .debug_str     0x00015ae6     0xb628 ./src/board/src/board.o
+ .debug_str     0x00015ae6     0x866d ./src/clock_11xx.o
+ .debug_str     0x00015ae6     0x2fa0 ./src/cr_startup_lpc11xx.o
+ .debug_str     0x00015ae6     0xeb73 ./src/freertos_blinky.o
+ .debug_str     0x00015ae6     0xe1a7 ./src/glcd.o
+ .debug_str     0x00015ae6     0x8965 ./src/i2c_11xx.o
+ .debug_str     0x00015ae6     0xe07f ./src/iic.o
+ .debug_str     0x00015ae6     0xe402 ./src/premain.o
+ .debug_str     0x00015ae6     0x52d9 ./src/privgpio.o
+ .debug_str     0x00015ae6     0xdea3 ./src/rtc.o
+ .debug_str     0x00015ae6     0x8f40 ./src/sysinit_Bb-LPC11U24custom.o
+ .debug_str     0x00015ae6     0xf49e ./src/task_lcd.o
+ .debug_str     0x00015ae6     0xe4d2 ./src/task_led.o
+ .debug_str     0x00015ae6     0x5e3a ../CMSISv2p00/Debug/libCMSISv2p00_LPC11Uxx.a(system_LPC11Uxx.o)
 
 .comment        0x00000000       0x44
  .comment       0x00000000       0x44 ./src/freertos/src/FreeRTOSCommonHooks.o
@@ -4639,7 +4643,7 @@ LOAD linker stubs
  .ARM.attributes
                 0x000006c4       0x2c C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libcr_newlib_none.a(_cr_check_heap.o)
 
-.debug_frame    0x00000000     0x1dec
+.debug_frame    0x00000000     0x1e10
  .debug_frame   0x00000000       0xa4 ./src/freertos/src/FreeRTOSCommonHooks.o
  .debug_frame   0x000000a4       0x88 ./src/freertos/src/heap_1.o
  .debug_frame   0x0000012c       0xb0 ./src/freertos/src/list.o
@@ -4655,28 +4659,28 @@ LOAD linker stubs
  .debug_frame   0x000015f8       0x8c ./src/iic.o
  .debug_frame   0x00001684       0x30 ./src/premain.o
  .debug_frame   0x000016b4       0x70 ./src/privgpio.o
- .debug_frame   0x00001724       0x70 ./src/rtc.o
- .debug_frame   0x00001794       0xa8 ./src/sysinit_Bb-LPC11U24custom.o
- .debug_frame   0x0000183c       0x54 ./src/task_lcd.o
- .debug_frame   0x00001890       0x50 ./src/task_led.o
- .debug_frame   0x000018e0       0x48 ../CMSISv2p00/Debug/libCMSISv2p00_LPC11Uxx.a(system_LPC11Uxx.o)
- .debug_frame   0x00001928       0x20 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libgcc.a(_udivsi3.o)
- .debug_frame   0x00001948       0x40 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-malloc.o)
- .debug_frame   0x00001988       0x3c C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-mallocr.o)
- .debug_frame   0x000019c4       0x40 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-mlock.o)
- .debug_frame   0x00001a04       0x2c C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-memcmp.o)
- .debug_frame   0x00001a30       0x30 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-memset.o)
- .debug_frame   0x00001a60       0x2c C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-strncat.o)
- .debug_frame   0x00001a8c       0x2c C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-strncpy.o)
- .debug_frame   0x00001ab8       0x2c C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-sbrkr.o)
- .debug_frame   0x00001ae4       0xb0 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-lock.o)
- .debug_frame   0x00001b94       0x28 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-sysconf.o)
- .debug_frame   0x00001bbc       0x20 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-strcpy.o)
- .debug_frame   0x00001bdc       0x30 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-memcpy-stub.o)
- .debug_frame   0x00001c0c       0x5c C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-freer.o)
- .debug_frame   0x00001c68      0x138 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-findfp.o)
- .debug_frame   0x00001da0       0x2c C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-reent.o)
- .debug_frame   0x00001dcc       0x20 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-errno.o)
+ .debug_frame   0x00001724       0x94 ./src/rtc.o
+ .debug_frame   0x000017b8       0xa8 ./src/sysinit_Bb-LPC11U24custom.o
+ .debug_frame   0x00001860       0x54 ./src/task_lcd.o
+ .debug_frame   0x000018b4       0x50 ./src/task_led.o
+ .debug_frame   0x00001904       0x48 ../CMSISv2p00/Debug/libCMSISv2p00_LPC11Uxx.a(system_LPC11Uxx.o)
+ .debug_frame   0x0000194c       0x20 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libgcc.a(_udivsi3.o)
+ .debug_frame   0x0000196c       0x40 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-malloc.o)
+ .debug_frame   0x000019ac       0x3c C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-mallocr.o)
+ .debug_frame   0x000019e8       0x40 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-mlock.o)
+ .debug_frame   0x00001a28       0x2c C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-memcmp.o)
+ .debug_frame   0x00001a54       0x30 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-memset.o)
+ .debug_frame   0x00001a84       0x2c C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-strncat.o)
+ .debug_frame   0x00001ab0       0x2c C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-strncpy.o)
+ .debug_frame   0x00001adc       0x2c C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-sbrkr.o)
+ .debug_frame   0x00001b08       0xb0 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-lock.o)
+ .debug_frame   0x00001bb8       0x28 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-sysconf.o)
+ .debug_frame   0x00001be0       0x20 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-strcpy.o)
+ .debug_frame   0x00001c00       0x30 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-memcpy-stub.o)
+ .debug_frame   0x00001c30       0x5c C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-freer.o)
+ .debug_frame   0x00001c8c      0x138 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-findfp.o)
+ .debug_frame   0x00001dc4       0x2c C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-reent.o)
+ .debug_frame   0x00001df0       0x20 C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-errno.o)
 
 .debug_loc      0x00000000       0x80
  .debug_loc     0x00000000       0x80 ../CMSISv2p00/Debug/libCMSISv2p00_LPC11Uxx.a(system_LPC11Uxx.o)
@@ -4808,6 +4812,7 @@ SYSCON_AssertPeriphReset                          ./src/sysinit_Bb-LPC11U24custo
 SYSCON_DeassertPeriphReset                        ./src/sysinit_Bb-LPC11U24custom.o
 SYSCON_PeriphReset                                ./src/sysinit_Bb-LPC11U24custom.o
 SetTimePCF8523                                    ./src/rtc.o
+                                                  ./src/task_lcd.o
 SetToBufLCD                                       ./src/glcd.o
                                                   ./src/task_lcd.o
 SysTick_Handler                                   ./src/freertos/src/port.o
@@ -4894,6 +4899,7 @@ __aeabi_uidiv                                     C:/tools/MCUXpressoIDE_24.12.1
                                                   C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-svfprintf.o)
                                                   C:/tools/MCUXpressoIDE_24.12.148/ide/plugins/com.nxp.mcuxpresso.tools.win32_24.12.0.202407110909/tools/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp\libc.a(libc_a-freer.o)
                                                   ../CMSISv2p00/Debug/libCMSISv2p00_LPC11Uxx.a(system_LPC11Uxx.o)
+                                                  ./src/rtc.o
                                                   ./src/i2c_11xx.o
                                                   ./src/clock_11xx.o
                                                   ./src/freertos/src/port.o
@@ -5336,9 +5342,11 @@ premain                                           ./src/premain.o
 privGPIOSetBitValue                               ./src/privgpio.o
                                                   ./src/task_led.o
                                                   ./src/task_lcd.o
+                                                  ./src/rtc.o
                                                   ./src/premain.o
                                                   ./src/iic.o
                                                   ./src/glcd.o
+prvTimeComp                                       ./src/rtc.o
 putBufToLCD                                       ./src/glcd.o
 putCharToLCD                                      ./src/glcd.o
 pvPortMalloc                                      ./src/freertos/src/heap_1.o

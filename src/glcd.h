@@ -79,6 +79,7 @@
 #define	CMD_GLCD	1
 #define	CMD_EX0		2
 #define	CMD_EX1		3
+#define CMD_RAW		4
 #define	LCD_BL	LCD_DBL
 #define LCD_RW  LCD_DRW
 #define LCD_CS1 LCD_DCS

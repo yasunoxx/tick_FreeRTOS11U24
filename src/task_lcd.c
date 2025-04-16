@@ -76,7 +76,6 @@ static void vLCDTask( void *pvParameters )
 //					InitSSD1306();	// iic.c
 					InitPCF8523();	// rtc.c
 					F_initSSD1306 = true;
-
 #ifdef USE_SEMAPHORE
 					xSemaphoreGive( pLCDSemaphore );
 				}
@@ -103,23 +102,42 @@ static void vLCDTask( void *pvParameters )
 				}
 				else
 				{
-					uint8_t buf[ 16 ], timeBuf[ 8 ];
+					uint8_t buf[ 16 ], timeBuf[ 11 ];
+					strcpy( ( char * )buf, "***T " );
+					strcpy( ( char * )timeBuf, "--d--:--:--" );
 
 #ifdef USE_SEMAPHORE
 					if( xSemaphoreTake( pLCDSemaphore, ( portTickType ) 10 ) == pdTRUE )
 					{
 #endif
-						GetTimePCF8523();
-						timeBuf[ 0 ] = '0' + TimePCF8523[ Hour ][ High ];
-						timeBuf[ 1 ] = '0' + TimePCF8523[ Hour ][ Low ];
-						timeBuf[ 2 ] = ':';
-						timeBuf[ 3 ] = '0' + TimePCF8523[ Minute ][ High ];
-						timeBuf[ 4 ] = '0' + TimePCF8523[ Minute ][ Low ];
-						timeBuf[ 5 ] = ':';
-						timeBuf[ 6 ] = '0' + TimePCF8523[ Second ][ High ];
-						timeBuf[ 7 ] = '0' + TimePCF8523[ Second ][ Low ];
-						strcpy( ( char * )buf, "Elap. T+" );
-						strncat( ( char * )buf, ( const char * )timeBuf, 8 );
+						if( true == GetTimePCF8523() )
+						{
+							strcpy( ( char * )buf, "El.T+" );
+							timeBuf[ 0 ] = '0' + TimePCF8523[ Day ][ High ];
+							timeBuf[ 1 ] = '0' + TimePCF8523[ Day ][ Low ];
+							timeBuf[ 2 ] = 'd';
+							timeBuf[ 3 ] = '0' + TimePCF8523[ Hour ][ High ];
+							timeBuf[ 4 ] = '0' + TimePCF8523[ Hour ][ Low ];
+							timeBuf[ 5 ] = ':';
+							timeBuf[ 6 ] = '0' + TimePCF8523[ Minute ][ High ];
+							timeBuf[ 7 ] = '0' + TimePCF8523[ Minute ][ Low ];
+							timeBuf[ 8 ] = ':';
+							timeBuf[ 9 ] = '0' + TimePCF8523[ Second ][ High ];
+							timeBuf[ 10 ] = '0' + TimePCF8523[ Second ][ Low ];
+						}
+						else
+						{
+							TimePCF8523[ Day ][ High ] = 0;
+							TimePCF8523[ Day ][ Low ] = 0;
+							TimePCF8523[ Hour ][ High ] = 0;
+							TimePCF8523[ Hour ][ Low ] = 0;
+							TimePCF8523[ Minute ][ High ] = 0;
+							TimePCF8523[ Minute ][ Low ] = 0;
+							TimePCF8523[ Second ][ High ] = 0;
+							TimePCF8523[ Second ][ Low ] = 0;
+							SetTimePCF8523();
+						}
+						strncat( ( char * )buf, ( const char * )timeBuf, 11 );
 						SetToBufLCD( 1, ( const char * )buf );
 #ifdef USE_SEMAPHORE
 						xSemaphoreGive( pLCDSemaphore );
@@ -127,8 +145,34 @@ static void vLCDTask( void *pvParameters )
 #endif
 				}
 			}
-		}
+#ifdef NOWDEGUG
+	        else	// xQueueReceive( pLCDQueue, &qMessage, 0 ) != pdPASS
+	        {
+#ifdef USE_SEMAPHORE
+	        	uint8_t keybuf;
+				if( xSemaphoreTake( pLCDSemaphore, ( portTickType ) 10 ) == pdTRUE )
+				{
+#endif
+					keybuf = InputData( CMD_RAW );
+					if( ( keybuf & 0x10 ) == 0 )
+					{
+					    TimePCF8523[ Second ][ High ] = 0;
+					    TimePCF8523[ Second ][ Low ] = 0;
+					    TimePCF8523[ Minute ][ High ] = 0;
+					    TimePCF8523[ Minute ][ Low ] = 0;
+					    TimePCF8523[ Hour ][ High ] = 0;
+					    TimePCF8523[ Hour ][ Low ] = 0;
+					    TimePCF8523[ Day ][ High ] = 0;
+					    TimePCF8523[ Day ][ Low ] = 0;
+						SetTimePCF8523();
+					}
+#ifdef USE_SEMAPHORE
+				}
+#endif
+	        }
+#endif
+		}	// end if( State == false )
 
 		vTaskDelayUntil( &ulLastTime, configTICK_RATE_HZ );
-	}
+	}	// while( 1 )
 }
